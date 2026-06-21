@@ -1,5 +1,10 @@
 document.getElementById('year').textContent = new Date().getFullYear();
 
+const clientsTrack = document.getElementById('clientsTrack');
+if (clientsTrack) {
+  clientsTrack.innerHTML += clientsTrack.innerHTML;
+}
+
 const header = document.getElementById('header');
 const nav = document.getElementById('nav');
 const navToggle = document.getElementById('navToggle');
