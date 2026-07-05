@@ -28,7 +28,7 @@ window.addEventListener('scroll', () => {
 const form = document.getElementById('contactForm');
 const status = document.getElementById('formStatus');
 
-form.addEventListener('submit', async (event) => {
+if (form) form.addEventListener('submit', async (event) => {
   event.preventDefault();
   status.textContent = 'Enviando...';
   status.removeAttribute('data-state');
