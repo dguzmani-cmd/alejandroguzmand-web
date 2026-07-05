@@ -34,10 +34,10 @@ if (form) form.addEventListener('submit', async (event) => {
   status.removeAttribute('data-state');
 
   try {
-    const response = await fetch(form.action, {
+    const response = await fetch('/', {
       method: 'POST',
-      body: new FormData(form),
-      headers: { Accept: 'application/json' },
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(new FormData(form)).toString(),
     });
 
     if (response.ok) {
@@ -45,9 +45,9 @@ if (form) form.addEventListener('submit', async (event) => {
       status.dataset.state = 'success';
       form.reset();
     } else {
-      throw new Error('Respuesta no válida del servidor');
+      throw new Error('error');
     }
-  } catch (error) {
+  } catch {
     status.textContent = 'No pudimos enviar el formulario. Escríbenos directo a contacto@alejandroguzmand.com';
     status.dataset.state = 'error';
   }

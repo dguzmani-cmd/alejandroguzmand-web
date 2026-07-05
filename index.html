@@ -221,7 +221,8 @@
           </ul>
         </div>
 
-        <form class="contact__form" id="contactForm" action="https://formspree.io/f/TU_FORM_ID" method="POST">
+        <form class="contact__form" id="contactForm" name="contacto" netlify>
+          <input type="hidden" name="form-name" value="contacto">
           <div class="form-row">
             <label for="nombre">Nombre completo</label>
             <input type="text" id="nombre" name="nombre" required>
