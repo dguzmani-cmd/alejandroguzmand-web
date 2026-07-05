@@ -34,13 +34,13 @@ if (form) form.addEventListener('submit', async (event) => {
   status.removeAttribute('data-state');
 
   try {
-    const response = await fetch('/', {
+    const response = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(new FormData(form)).toString(),
+      body: new FormData(form),
     });
 
-    if (response.ok) {
+    const data = await response.json();
+    if (data.success) {
       status.textContent = '¡Gracias! Recibimos tu solicitud, te contactaremos a la brevedad.';
       status.dataset.state = 'success';
       form.reset();
