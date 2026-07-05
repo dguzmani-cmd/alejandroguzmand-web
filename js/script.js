@@ -41,6 +41,18 @@ if (form) form.addEventListener('submit', async (event) => {
 
     const data = await response.json();
     if (data.success) {
+      fetch('https://script.google.com/macros/s/AKfycbxuwtLBiO7NQO5vrK4fZKykC1rksbsTv5u8TxSqi5L5UKGbe5ej8XkjSSG2uIx9M9ts/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          nombre: form.nombre.value,
+          email: form.email.value,
+          telefono: form.telefono.value,
+          empresa: form.empresa.value,
+          mensaje: form.mensaje.value,
+        }).toString(),
+      });
       status.textContent = '¡Gracias! Recibimos tu solicitud, te contactaremos a la brevedad.';
       status.dataset.state = 'success';
       form.reset();
