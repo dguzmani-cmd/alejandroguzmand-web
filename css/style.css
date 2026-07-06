@@ -346,7 +346,7 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   gap: 48px;
   width: max-content;
-  animation: clients-scroll 28s linear infinite;
+  animation: clients-scroll 40s linear infinite;
 }
 .clients__carousel:hover .clients__track,
 .clients__carousel:focus-within .clients__track {
