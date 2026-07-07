@@ -5,40 +5,6 @@ if (clientsTrack) {
   clientsTrack.innerHTML += clientsTrack.innerHTML;
 }
 
-const gallerySlideshow = document.getElementById('gallerySlideshow');
-if (gallerySlideshow) {
-  const slides = gallerySlideshow.querySelectorAll('.gallery__slide');
-  const dots = gallerySlideshow.querySelectorAll('.gallery__dot');
-  let current = 0;
-  let timer;
-
-  function goTo(index) {
-    slides[current].classList.remove('gallery__slide--active');
-    dots[current].classList.remove('gallery__dot--active');
-    current = (index + slides.length) % slides.length;
-    slides[current].classList.add('gallery__slide--active');
-    dots[current].classList.add('gallery__dot--active');
-  }
-
-  function startTimer() {
-    timer = setInterval(() => goTo(current + 1), 4500);
-  }
-
-  function resetTimer() {
-    clearInterval(timer);
-    startTimer();
-  }
-
-  document.getElementById('galleryPrev').addEventListener('click', () => { goTo(current - 1); resetTimer(); });
-  document.getElementById('galleryNext').addEventListener('click', () => { goTo(current + 1); resetTimer(); });
-  dots.forEach((dot, i) => dot.addEventListener('click', () => { goTo(i); resetTimer(); }));
-
-  gallerySlideshow.addEventListener('mouseenter', () => clearInterval(timer));
-  gallerySlideshow.addEventListener('mouseleave', startTimer);
-
-  startTimer();
-}
-
 const header = document.getElementById('header');
 const nav = document.getElementById('nav');
 const navToggle = document.getElementById('navToggle');
