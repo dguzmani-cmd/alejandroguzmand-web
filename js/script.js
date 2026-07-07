@@ -5,6 +5,35 @@ if (clientsTrack) {
   clientsTrack.innerHTML += clientsTrack.innerHTML;
 }
 
+const galleryTrack = document.getElementById('galleryTrack');
+if (galleryTrack) {
+  const scrollAmount = 400;
+  document.getElementById('galleryPrev').addEventListener('click', () => {
+    galleryTrack.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+  });
+  document.getElementById('galleryNext').addEventListener('click', () => {
+    galleryTrack.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+  });
+
+  let isDragging = false, startX, scrollLeft;
+  galleryTrack.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.pageX - galleryTrack.offsetLeft;
+    scrollLeft = galleryTrack.scrollLeft;
+    galleryTrack.style.scrollBehavior = 'auto';
+  });
+  window.addEventListener('mouseup', () => {
+    isDragging = false;
+    galleryTrack.style.scrollBehavior = 'smooth';
+  });
+  galleryTrack.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - galleryTrack.offsetLeft;
+    galleryTrack.scrollLeft = scrollLeft - (x - startX);
+  });
+}
+
 const header = document.getElementById('header');
 const nav = document.getElementById('nav');
 const navToggle = document.getElementById('navToggle');
