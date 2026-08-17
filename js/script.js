@@ -57,6 +57,65 @@ window.addEventListener('scroll', () => {
 const form = document.getElementById('contactForm');
 const status = document.getElementById('formStatus');
 
+/* Tipo de solicitud: empresa (default) o asesoría personal */
+const tipoInputs = form ? form.querySelectorAll('input[name="tipo"]') : [];
+const empresaRow = document.getElementById('empresaRow');
+const empresaInput = document.getElementById('empresa');
+const empresaLabel = empresaRow ? empresaRow.querySelector('label') : null;
+const subjectInput = form ? form.querySelector('input[name="subject"]') : null;
+
+function esPersonal() {
+  return form && form.tipo && form.tipo.value === 'Asesoría personal';
+}
+
+function actualizarTipo() {
+  if (!form) return;
+  const personal = esPersonal();
+
+  if (empresaRow) {
+    empresaRow.hidden = personal;
+    empresaInput.required = !personal;
+    if (personal) empresaInput.value = '';
+  }
+  if (empresaLabel) {
+    empresaLabel.textContent = personal ? 'Empresa (opcional)' : 'Empresa';
+  }
+  if (subjectInput) {
+    subjectInput.value = personal
+      ? 'Nueva solicitud de asesoría personal desde alejandroguzmand.com'
+      : 'Nueva solicitud de empresa desde alejandroguzmand.com';
+  }
+  const mensaje = document.getElementById('mensaje');
+  if (mensaje) {
+    mensaje.placeholder = personal
+      ? 'Ej: necesito ordenar mis deudas y armar un presupuesto familiar.'
+      : 'Ej: charla de educación financiera para 200 colaboradores en octubre.';
+  }
+}
+
+tipoInputs.forEach((input) => input.addEventListener('change', actualizarTipo));
+
+function seleccionarTipo(valor) {
+  if (!form || !form.tipo) return;
+  const objetivo = valor === 'personal' ? 'Asesoría personal' : 'Empresa';
+  form.tipo.value = objetivo;
+  actualizarTipo();
+}
+
+document.querySelectorAll('[data-tipo]').forEach((link) => {
+  link.addEventListener('click', () => seleccionarTipo(link.dataset.tipo));
+});
+
+if (form) {
+  actualizarTipo();
+  if (window.location.hash === '#asesoria-personal') {
+    seleccionarTipo('personal');
+    window.addEventListener('load', () => {
+      document.getElementById('contacto').scrollIntoView();
+    });
+  }
+}
+
 if (form) form.addEventListener('submit', async (event) => {
   event.preventDefault();
   status.textContent = 'Enviando...';
@@ -78,13 +137,15 @@ if (form) form.addEventListener('submit', async (event) => {
           nombre: form.nombre.value,
           email: form.email.value,
           telefono: form.telefono.value,
-          empresa: form.empresa.value,
+          empresa: form.empresa.value || 'Persona natural (asesoría personal)',
           mensaje: form.mensaje.value,
+          tipo: form.tipo.value,
         }).toString(),
       });
       status.textContent = '¡Gracias! Recibimos tu solicitud, te contactaremos a la brevedad.';
       status.dataset.state = 'success';
       form.reset();
+      actualizarTipo();
     } else {
       throw new Error('error');
     }
