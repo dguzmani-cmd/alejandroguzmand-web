@@ -708,7 +708,14 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 980px) {
   .service-body__grid { grid-template-columns: 1fr; }
   .service-body { padding: 60px 0; }
-  .hero__inner, .about__inner, .contact__inner { grid-template-columns: 1fr; }
+  .hero__inner, .about__inner { grid-template-columns: 1fr; }
+  /* En una columna el formulario sube: los datos de contacto pasan debajo.
+     display:contents saca la caja de .contact__info para poder ordenar
+     sus hijos junto al formulario; los márgenes propios dan el espaciado. */
+  .contact__inner { display: flex; flex-direction: column; gap: 0; }
+  .contact__info { display: contents; }
+  .contact__form { order: 1; margin-bottom: 36px; }
+  .contact__details { order: 2; }
   .hero__media { max-width: 380px; margin: 0 auto; }
   .about__photo { max-width: 360px; margin: 0 auto; }
   .services__grid { grid-template-columns: repeat(2, 1fr); }
